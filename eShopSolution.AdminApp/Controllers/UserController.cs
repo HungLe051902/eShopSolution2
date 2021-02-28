@@ -50,7 +50,7 @@ namespace eShopSolution.AdminApp.Controllers
             var authProperties = new AuthenticationProperties
             {
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                IsPersistent = true
+                IsPersistent = false
             };
 
             await HttpContext.SignInAsync(
@@ -59,6 +59,13 @@ namespace eShopSolution.AdminApp.Controllers
                     authProperties);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "User");
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)
