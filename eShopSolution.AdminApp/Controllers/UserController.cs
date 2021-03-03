@@ -37,7 +37,7 @@ namespace eShopSolution.AdminApp.Controllers
                 PageSize = pageSize
             };
             var data = await _userApiClient.GetUsersPaging(request);
-            return View(data);
+            return View(data.ResultObj);
         }
 
         [HttpGet]
@@ -52,12 +52,33 @@ namespace eShopSolution.AdminApp.Controllers
             if (!ModelState.IsValid)
                 return View();
             var result = await _userApiClient.RegisterUser(request);
-            if (result)
+            if (result.IsSuccessed)
                 return RedirectToAction("Index");
+
+            ModelState.AddModelError("", result.Message);
             return View(request);
         }
 
-        
+        [HttpGet]
+        public async Task<IActionResult> Update(RegisterRequest request)
+        {
+            var user = _userApiClient.
+
+            return View(request);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(RegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+            var result = await _userApiClient.RegisterUser(request);
+            if (result.IsSuccessed)
+                return RedirectToAction("Index");
+
+            ModelState.AddModelError("", result.Message);
+            return View(request);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Logout()
