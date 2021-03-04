@@ -41,9 +41,10 @@ namespace eShopSolution.AdminApp.Services
 
         public async Task<ApiResult<UserVm>> GetById(Guid id)
         {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.BearerToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
             var response = await client.GetAsync($"/api/users/{id}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
@@ -54,8 +55,9 @@ namespace eShopSolution.AdminApp.Services
         public async Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request)
         {
             var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.BearerToken); 
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions); 
             var response = await client.GetAsync($"/api/users/paging?pageIndex=" + 
                 $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
             var body = await response.Content.ReadAsStringAsync();
@@ -83,7 +85,8 @@ namespace eShopSolution.AdminApp.Services
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
