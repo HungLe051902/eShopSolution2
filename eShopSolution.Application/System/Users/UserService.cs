@@ -86,6 +86,7 @@ namespace eShopSolution.Application.System.Users
             {
                 return new ApiErrorResult<UserVm>("User không tồn tại");
             }
+            var roles = await _userManager.GetRolesAsync(user);
             var userVm = new UserVm()
             {
                 Email = user.Email,
@@ -94,7 +95,8 @@ namespace eShopSolution.Application.System.Users
                 Dob = user.Dob,
                 Id = user.Id,
                 LastName = user.LastName,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Roles = roles
             };
             return new ApiSuccessResult<UserVm>(userVm);
         }
