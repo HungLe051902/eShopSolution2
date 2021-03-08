@@ -73,7 +73,7 @@ namespace eShopSolution.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _userService.Update(id, request);
+            var result = await _userService.RoleAssign(id, request);
             if (!result.IsSuccessed)
             {
                 return BadRequest(result);

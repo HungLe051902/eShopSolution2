@@ -163,30 +163,25 @@ namespace eShopSolution.Application.System.Users
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
 
-        public Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)
+        public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if  (user != null)
             {
                 return new ApiErrorResult<bool>("Tài khoản không tồn tại");
             }
-            if (await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id))
-            {
-                return new ApiErrorResult<bool>("Emai đã tồn tại");
-            }
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            user.Dob = request.Dob;
-            user.Email = request.Email;
-            user.FirstName = request.FirstName;
-            user.LastName = request.LastName;
-            user.PhoneNumber = request.PhoneNumber;
 
-            var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
+            var removedRoles = request.Roles.Where(x => x.Selected == false).Select(x => x.Name).ToList();
+            await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+            var addedRoles = request.Roles.Where(x => x.Selected == true).Select(x => x.Name).ToList();
+            foreach(var roleName in addedRoles)
             {
-                return new ApiSuccessResult<bool>();
+                if (await _userManager.IsInRoleAsync(user, roleName) == false)
+                    await _userManager.AddToRolesAsync(user, addedRoles);
             }
-            return new ApiErrorResult<bool>("Cập nhật không thành công");
+
+            return new ApiSuccessResult<bool>();
         }
 
         public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)

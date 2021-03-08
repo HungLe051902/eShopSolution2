@@ -7,6 +7,6 @@ namespace eShopSolution.ViewModels.System.Users
 {
     public class RoleAssignRequest
     {
-        public SelectedItem Roles { get; set; }
+        public SelectedItem[] Roles { get; set; }
     }
 }
