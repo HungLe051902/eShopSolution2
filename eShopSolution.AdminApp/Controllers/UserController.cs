@@ -144,20 +144,9 @@ namespace eShopSolution.AdminApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RoleAssign(Guid Id)
+        public async Task<IActionResult> RoleAssign(Guid id)
         {
-            var userObj = await _userApiClient.GetById(Id);
-            var roleObj = await _roleApiClient.GetAll();
-            var roleAssignRequest = new RoleAssignRequest();
-            foreach(var role in roleObj.ResultObj)
-            {
-                roleAssignRequest.Roles.Add(new SelectedItem()
-                {
-                    Id = role.Id.ToString(),
-                    Name = role.Name,
-                    Selected = userObj.ResultObj.Roles.Contains(role.Name)
-                });
-            }
+            var roleAssignRequest = await GetRoleAssignRequest(id);
             return View(roleAssignRequest);
         }
 
@@ -174,7 +163,27 @@ namespace eShopSolution.AdminApp.Controllers
             }
 
             ModelState.AddModelError("", result.Message);
-            return View(request);
+
+            var roleAssignRequest = await GetRoleAssignRequest(request.Id);
+
+            return View(roleAssignRequest);
+        }
+
+        private async Task<RoleAssignRequest> GetRoleAssignRequest(Guid id)
+        {
+            var userObj = await _userApiClient.GetById(id);
+            var roleObj = await _roleApiClient.GetAll();
+            var roleAssignRequest = new RoleAssignRequest();
+            foreach (var role in roleObj.ResultObj)
+            {
+                roleAssignRequest.Roles.Add(new SelectedItem()
+                {
+                    Id = role.Id.ToString(),
+                    Name = role.Name,
+                    Selected = userObj.ResultObj.Roles.Contains(role.Name)
+                });
+            }
+            return roleAssignRequest;
         }
     }
 }
