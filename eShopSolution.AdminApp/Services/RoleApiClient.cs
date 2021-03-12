@@ -33,7 +33,10 @@ namespace eShopSolution.AdminApp.Services
             var response = await client.GetAsync($"/api/roles");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<List<RoleVm>>>(body);
+            {
+                List<RoleVm> myDeserializedObjList = (List<RoleVm>)JsonConvert.DeserializeObject(body, typeof(List<RoleVm>));
+                return new ApiSuccessResult<List<RoleVm>>(myDeserializedObjList);
+            }
             return JsonConvert.DeserializeObject<ApiErrorResult<List<RoleVm>>>(body);
         }
     }
