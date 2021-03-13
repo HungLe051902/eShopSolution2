@@ -1,6 +1,8 @@
 ﻿using eShopSolution.Utilities.Constants;
+using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,10 +35,10 @@ namespace eShopSolution.AdminApp.Services
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                List<LanguageVm> myDeserializedObjList = (List<LanguageVm>)JsonConvert.DeserializeObject(body, typeof(List<LanguageVm>));
-                return new ApiSuccessResult<List<LanguageVm>>(myDeserializedObjList);
+                TResponse myDeserializedObjList = (TResponse)JsonConvert.DeserializeObject(body, typeof(TResponse));
+                return myDeserializedObjList;
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<List<LanguageVm>>>(body);
+            return JsonConvert.DeserializeObject<TResponse>(body);
         }
     }
 }
