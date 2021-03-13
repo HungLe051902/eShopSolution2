@@ -48,6 +48,7 @@ namespace eShopSolution.AdminApp
 
             services.AddTransient<IUserApiClient, UserApiClient>();
             services.AddTransient<IRoleApiClient, RoleApiClient>();
+            services.AddTransient<ILanguageApiClient, LanguageApiClient>();
 
             IMvcBuilder builder = services.AddRazorPages();
 
