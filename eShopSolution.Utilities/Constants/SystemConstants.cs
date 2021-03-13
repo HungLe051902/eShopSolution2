@@ -12,6 +12,7 @@ namespace eShopSolution.Utilities.Constants
         {
             public const string DefaultLanguageId = "DefaultLanguageId";
             public const string Token = "Token";
+            public const string BaseAddress = "BaseAddress";
         }
     }
 }
