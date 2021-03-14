@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eShopSolution.Application.Catalog.Categories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +19,9 @@ namespace eShopSolution.BackendApi.Controllers
             _categoryService = categoryService;
         }
         [HttpGet("paging")]
-        public async Task<IActionResult> GetAllPaging([FromQuery] GetManageProductPagingRequest request)
+        public async Task<IActionResult> GetAll(string languageId)
         {
-            var products = await _productService.GetAllPaging(request);
+            var products = await _categoryService.GetAll(languageId);
             return Ok(products);
         }
     }
