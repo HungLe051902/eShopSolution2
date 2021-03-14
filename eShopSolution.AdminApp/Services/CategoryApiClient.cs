@@ -15,9 +15,9 @@ namespace eShopSolution.AdminApp.Services
         public CategoryApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration, httpContextAccessor)
         {
         }
-        public async Task<ApiResult<List<CategoryVm>>> GetAll(string languageId)
+        public async Task<List<CategoryVm>> GetAll(string languageId)
         {
-            return await GetAsync<ApiResult<List<CategoryVm>>>("/api/categories?languageId=" + languageId);
+            return await GetListAsync<CategoryVm>("/api/categories?languageId=" + languageId);
         }
     }
 }

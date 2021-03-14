@@ -9,6 +9,6 @@ namespace eShopSolution.AdminApp.Services
 {
     public interface ICategoryApiClient
     {
-        Task<ApiResult<List<CategoryVm>>> GetAll(string languageId);
+        Task<List<CategoryVm>> GetAll(string languageId);
     }
 }
