@@ -25,7 +25,7 @@ namespace eShopSolution.AdminApp.Services
             _configuration = configuration;
         }
 
-        public Task<bool> CreateProduct(ProductCreateRequest request)
+        public async Task<bool> CreateProduct(ProductCreateRequest request)
         {
             var sessions = _httpContextAccessor.
                 HttpContext.
@@ -62,6 +62,11 @@ namespace eShopSolution.AdminApp.Services
             requestContent.Add(new StringContent(request.SeoTitle.ToString()), "SeoTitle");
             requestContent.Add(new StringContent(request.SeoAlias.ToString()), "SeoAlias");
             requestContent.Add(new StringContent(request.Description.ToString()), "Description");
+
+            requestContent.Add(new StringContent(languageId), "languageId");
+
+            var response = await client.PostAsync($"/api/products/", requestContent);
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<PagedResult<ProductVm>> GetPagings(GetManageProductPagingRequest request)
