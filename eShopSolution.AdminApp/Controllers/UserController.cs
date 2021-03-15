@@ -176,7 +176,7 @@ namespace eShopSolution.AdminApp.Controllers
             var roleAssignRequest = new RoleAssignRequest();
             foreach (var role in roleObj.ResultObj)
             {
-                roleAssignRequest.Roles.Add(new SelectedItem()
+                roleAssignRequest.Roles.Add(new SelectItem()
                 {
                     Id = role.Id.ToString(),
                     Name = role.Name,
