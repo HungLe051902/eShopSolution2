@@ -14,7 +14,7 @@ namespace eShopSolution.AdminApp.Services
 {
     public class LanguageApiClient : BaseApiClient, ILanguageApiClient
     {
-        public LanguageApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration, httpContextAccessor)
+        public LanguageApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, httpContextAccessor, configuration)
         {
         }
         public async Task<ApiResult<List<LanguageVm>>> GetAll()

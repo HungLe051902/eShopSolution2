@@ -141,12 +141,12 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpPut("{id}/categories")]
-        public async Task<IActionResult> RoleAssign(int id, [FromBody] CategoryAssignRequest request)
+        public async Task<IActionResult> CategoryAssign(int id, [FromBody] CategoryAssignRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _productService.RoleAssign(id, request);
+            var result = await _productService.CategoryAssign(id, request);
             if (!result.IsSuccessed)
             {
                 return BadRequest(result);
